@@ -12,14 +12,14 @@
   },
   "files": {
     "circuits/contract/with_foundry/plonk_vk.sol": {
-      "lastModificationDate": 1705386519734,
-      "contentHash": "6fc42b19f450e67b690896bc308cf1f3",
+      "lastModificationDate": 1705640487799,
+      "contentHash": "4d85d5a8023b8c50507db4f6e135aa86",
       "sourceName": "circuits/contract/with_foundry/plonk_vk.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -40,7 +40,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -58,15 +58,15 @@
         }
       }
     },
-    "contract/Starter.sol": {
-      "lastModificationDate": 1705386306298,
-      "contentHash": "57c4b3dd7166d4d7a0a7bc3b478e0425",
-      "sourceName": "contract/Starter.sol",
+    "contract/GhoPay.sol": {
+      "lastModificationDate": 1705639747180,
+      "contentHash": "73be98fecd715dfffb5ffa21d845dbaf",
+      "sourceName": "contract/GhoPay.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -87,7 +87,53 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "circuits/contract/with_foundry/plonk_vk.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "GhoPay": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "GhoPay.sol/GhoPay.json"
+        },
+        "IERC20Permit": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "GhoPay.sol/IERC20Permit.json"
+        }
+      }
+    },
+    "contract/Starter.sol": {
+      "lastModificationDate": 1705386306298,
+      "contentHash": "57c4b3dd7166d4d7a0a7bc3b478e0425",
+      "sourceName": "contract/Starter.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -109,7 +155,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -130,7 +176,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -150,7 +196,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -171,7 +217,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -200,7 +246,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -221,7 +267,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -253,7 +299,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -274,7 +320,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -297,7 +343,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -318,7 +364,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -340,7 +386,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -361,7 +407,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -387,7 +433,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -408,7 +454,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -428,7 +474,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -449,7 +495,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -469,7 +515,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -490,7 +536,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -512,7 +558,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -533,7 +579,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -553,7 +599,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -574,7 +620,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -599,7 +645,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -620,7 +666,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -642,7 +688,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -663,7 +709,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -686,7 +732,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -707,7 +753,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -744,7 +790,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -765,7 +811,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -788,7 +834,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -809,7 +855,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -829,7 +875,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -850,7 +896,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -870,7 +916,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -891,7 +937,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -911,7 +957,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -932,7 +978,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -967,7 +1013,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -988,7 +1034,7 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
@@ -1015,15 +1061,15 @@
         }
       }
     },
-    "test/Starter.t.sol": {
-      "lastModificationDate": 1705386306310,
-      "contentHash": "ce06fb02a5ffb458799998be10ecb1a7",
-      "sourceName": "test/Starter.t.sol",
+    "test/GhoPay.t.sol": {
+      "lastModificationDate": 1705640788088,
+      "contentHash": "92b47fcb7293353312a5b57ea336f14e",
+      "sourceName": "test/GhoPay.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 5000
+            "runs": 200
           },
           "metadata": {
             "useLiteralContent": false,
@@ -1044,7 +1090,68 @@
               ]
             }
           },
-          "evmVersion": "london",
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "circuits/contract/with_foundry/plonk_vk.sol",
+        "contract/GhoPay.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol"
+      ],
+      "versionRequirement": "^0.8.17",
+      "artifacts": {
+        "GhoPayTest": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "GhoPay.t.sol/GhoPayTest.json"
+        }
+      }
+    },
+    "test/Starter.t.sol": {
+      "lastModificationDate": 1705386306310,
+      "contentHash": "ce06fb02a5ffb458799998be10ecb1a7",
+      "sourceName": "test/Starter.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
           "libraries": {}
         }
       },
