@@ -10,7 +10,7 @@ const config = createConfig(
   getDefaultConfig({
     // Required API Keys
     alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_ID, // or infuraId
-    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
     chains,
 
     // Required
@@ -29,7 +29,8 @@ export default function Connectkit({ children }: { children: React.ReactNode }) 
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider>
-        { mounted && children }
+        {/* { mounted && children } */}
+        { children }
       </ConnectKitProvider>
     </WagmiConfig>
   );

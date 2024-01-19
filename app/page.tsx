@@ -1,46 +1,62 @@
 "use client"
 
-import { useAccount } from "wagmi"
-import { ConnectKitButton } from "connectkit"
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import React, { useState, useEffect } from 'react';
+import { parseEther } from 'viem';
+import { useAccount } from 'wagmi'
+import { createBrowserClient } from '@supabase/ssr';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Navbar from './Navbar';
+// import Approve from './approve';
 
-export default function App() {
-  return (
-    <>
-      <ConnectKitButton />
-      <MyComponent />
-      <Home />
-    </>
-  )};
+const Pay = () => {
 
-export function Home() {
-
-  const [userAddress, setUserAddress] = useState<string>();
-  const [destinationAddress, setDestinationAddress] = useState<string>();
-  const [amount, setAmount] = useState<number | null>();
-  const [email, setEmail] = useState<string>();
-
-  const handleClick = () => {
-    console.log(email, userAddress, destinationAddress, amount);
-  }
-
-  return (
-    <main>
-      <Input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <Input type="text" placeholder="User Address" onChange={(e) => setUserAddress(e.target.value)} />
-      <Input type="number" placeholder="Amount" onChange={(e) => setAmount(e.target.value)} />
-      <Input type="text" placeholder="Destination Address" onChange={(e) => setDestinationAddress(e.target.value)} />
-      <Button onClick={handleClick}>Proceed</Button>
-    </main>
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
-}
 
-{/* Make sure that this component is wrapped with ConnectKitProvider */}
-const MyComponent = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
-  if (isConnecting) return <div>Connecting...</div>;
-  if (isDisconnected) return <div>Disconnected</div>;
-  return <div>Connected Wallet: {address}</div>;
+  const { address } = useAccount();
+  const [email, setEmail] = useState('');
+  const [amount, setAmount] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [sum, setSum] = useState();
+  const [deadline, setDeadline] = useState('');
+  const [v, setV] = useState('');
+  const [r, setR] = useState('');
+  const [s, setS] = useState('');
+
+
+
+  useEffect(() => {
+
+    async function fetchWalletAdderss() {
+      try {
+        const { data, error } = await supabase
+        .from('email_to_address')
+        .select();
+        console.log('data', data);
+        console.log('error', error);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+    fetchWalletAdderss();
+    
+  } , [])
+
+  return (
+    <div>
+      <Navbar />
+      <p>Pay</p>
+      <div>Amount:</div> 
+      <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+      <div>To:</div>
+      <Input placeholder="Destination Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
+      
+      {/* <Approve props={ sum, amount, deadline, v, r, s } /> */}
+    </div>
+  );
 };
+
+export default Pay;

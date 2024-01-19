@@ -6,10 +6,12 @@ import { useAccount } from 'wagmi'
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Approve from './approve';
+import Register from './register';
+import Navbar from '../Navbar';
 
 const Permit = () => {
 
-  const { address } = useAccount();
+  const { address, isConnected, isConnecting, isDisconnected } = useAccount();
   const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
@@ -21,15 +23,19 @@ const Permit = () => {
 
   useEffect(() => {
     address && setWalletAddress(address);
-  }, [])
+  }, [address])
 
   return (
-    <div>
-      <p>Permit</p>
-      <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-      <Input placeholder="Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
-      <Approve props={ sum, amount, deadline, v, r, s } />
-    </div>
+    <>
+      <Navbar/>
+      {!isConnected && <p>Connect to Wallet to continue</p>}
+      <div>
+        <Register walletAddress={walletAddress} />
+        <p>Permit</p>
+        <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <Approve props={ sum, amount, deadline, v, r, s } />
+      </div>
+    </>
   );
 };
 
