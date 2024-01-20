@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { parseEther } from 'viem';
-import { useAccount } from 'wagmi'
+import { useAccount } from 'wagmi';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Approve from './approve';
@@ -28,7 +28,6 @@ const Permit = () => {
   return (
     <>
       <Navbar/>
-      {!isConnected && <p>Connect to Wallet to continue</p>}
       <div>
         <Register walletAddress={walletAddress} />
         <p>Permit</p>
