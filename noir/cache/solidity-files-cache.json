@@ -59,8 +59,8 @@
       }
     },
     "contract/GhoPay.sol": {
-      "lastModificationDate": 1705639747180,
-      "contentHash": "73be98fecd715dfffb5ffa21d845dbaf",
+      "lastModificationDate": 1705731587012,
+      "contentHash": "43f62272a3783d8753a48c674b48a640",
       "sourceName": "contract/GhoPay.sol",
       "solcConfig": {
         "settings": {
@@ -92,15 +92,98 @@
         }
       },
       "imports": [
-        "circuits/contract/with_foundry/plonk_vk.sol"
+        "circuits/contract/with_foundry/plonk_vk.sol",
+        "contract/GhoToken.sol",
+        "contract/IERC20.sol"
       ],
       "versionRequirement": "^0.8.0",
       "artifacts": {
         "GhoPay": {
           "0.8.20+commit.a1b79de6.Linux.gcc": "GhoPay.sol/GhoPay.json"
-        },
-        "IERC20Permit": {
-          "0.8.20+commit.a1b79de6.Linux.gcc": "GhoPay.sol/IERC20Permit.json"
+        }
+      }
+    },
+    "contract/GhoToken.sol": {
+      "lastModificationDate": 1705730998103,
+      "contentHash": "a84f5be0bd5f2207ac25adac529505ff",
+      "sourceName": "contract/GhoToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contract/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ERC20": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "GhoToken.sol/ERC20.json"
+        }
+      }
+    },
+    "contract/IERC20.sol": {
+      "lastModificationDate": 1705730960239,
+      "contentHash": "b960ecdb92030811ce1f05041420e57b",
+      "sourceName": "contract/IERC20.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.19",
+      "artifacts": {
+        "IERC20": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "IERC20.sol/IERC20.json"
         }
       }
     },
@@ -1062,8 +1145,8 @@
       }
     },
     "test/GhoPay.t.sol": {
-      "lastModificationDate": 1705640788088,
-      "contentHash": "92b47fcb7293353312a5b57ea336f14e",
+      "lastModificationDate": 1705731843584,
+      "contentHash": "eed74c4a342e997c9fd674c219c768f9",
       "sourceName": "test/GhoPay.t.sol",
       "solcConfig": {
         "settings": {
@@ -1097,6 +1180,8 @@
       "imports": [
         "circuits/contract/with_foundry/plonk_vk.sol",
         "contract/GhoPay.sol",
+        "contract/GhoToken.sol",
+        "contract/IERC20.sol",
         "lib/forge-std/lib/ds-test/src/test.sol",
         "lib/forge-std/src/Base.sol",
         "lib/forge-std/src/StdAssertions.sol",
