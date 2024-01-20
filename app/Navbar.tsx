@@ -6,12 +6,14 @@ import Image from 'next/image'
 import { ConnectKitButton } from 'connectkit';
 
 export default function Navbar() {
-    return (<div className="flex align-center justify-between w-full bg-slate-300 p-4">
-        <Image src={logo} width={80} alt='zkkey logo' priority={true} />
-        <div className='w-full flex justify-center space-x-6 text-xl text-blue-600'>
-            <Link href='/permit'>Permit</Link>
-            <Link href='/'>Pay</Link>
-        </div>
+    return (<div className="flex align-center justify-center w-full p-4">
+            <div className='flex align-center justify-between items-center w-[80%]'>
+                 <div className='w-[50%] flex  space-x-6 text-xl items-center text-blue-600'>
+                    <Image src={logo} width={80} alt='zkkey logo' priority={true} />
+                    <Link className='text-white' href='/permit'>Register</Link>
+                </div>
+            </div>
+        
         <ConnectKitButton/>
         </div>);
 }

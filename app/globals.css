@@ -74,3 +74,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+.radialBg{
+
+  background: rgb(15,0,159);
+  background: radial-gradient(circle, rgba(15,0,159,0.7265756644454657) 37%, rgba(34,0,163,0.6649510145855217) 68%);
+
+}

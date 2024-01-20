@@ -7,10 +7,8 @@ import { createBrowserClient } from '@supabase/ssr';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Navbar from './Navbar';
-import { BarretenbergBackend } from '@noir-lang/backend_barretenberg';
-import { Noir } from '@noir-lang/noir_js';
-import with_foundry from '../noir/circuits/target/with_foundry.json';
-// import Approve from './approve';
+import Pattern from '../components/ui/Pattern';
+
 
 const Pay = () => {
 
@@ -19,16 +17,9 @@ const Pay = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
-  const { address } = useAccount();
-  const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
-  const [sum, setSum] = useState();
-  const [deadline, setDeadline] = useState('');
-  const [v, setV] = useState('');
-  const [r, setR] = useState('');
-  const [s, setS] = useState('');
-
+  const [proof,setProof]=useState(new Uint8Array());  
 
 
   useEffect(() => {
@@ -48,42 +39,27 @@ const Pay = () => {
     
   } , [])
 
-  /**
- * An array of integers.
- * @type {number[]}
- */
-  type Field = string | number | boolean;
-type InputValue = Field | InputMap | Field[];
-type InputMap = { [key: string]: InputValue };
-
-const temp = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  useEffect(() => {
+    console.log('proof', proof);
+  }, [proof]);
 
 
-
-  const handleClick = async () => {
-    // @ts-ignore
-    const backend = new BarretenbergBackend(with_foundry);
-    
-    // @ts-ignore
-    const noir = new Noir(with_foundry, backend);
-    const input = { x: temp,y:285 };
-    console.log('logs', 'Generating proof... ⌛');
-    const proof = await noir.generateFinalProof(input);
-    console.log('logs', 'Generating proof... ✅');
-    console.log('results', proof.proof);
-  }
+ 
 
   return (
-    <div>
+    <div className='radialBg h-[100vh] text-white'>
       <Navbar />
-      <p>Pay</p>
-      <div>Amount:</div> 
-      <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-      <div>To:</div>
-      <Input placeholder="Destination Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
+      <div className='w-[100%] flex flex-col items-center justify-center'>
+        <div className='w-[80%] flex flex-col justify-center items-center p-8 gap-6'>
+          <p className='text-6xl'>zPay</p>
+          <Input className='' type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
       
-      {/* <Approve props={ sum, amount, deadline, v, r, s } /> */}
-      <Button onClick={handleClick}>Proof</Button>
+        <Input placeholder="Destination Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
+        <Pattern setProof={setProof} />
+        </div>
+      
+      </div>
+      
     </div>
   );
 };
