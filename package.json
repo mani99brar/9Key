@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@noir-lang/backend_barretenberg": "^0.17.0",
+    "@noir-lang/noir_js": "^0.17.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",

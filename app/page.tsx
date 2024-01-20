@@ -7,6 +7,9 @@ import { createBrowserClient } from '@supabase/ssr';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Navbar from './Navbar';
+import { BarretenbergBackend } from '@noir-lang/backend_barretenberg';
+import { Noir } from '@noir-lang/noir_js';
+import with_foundry from '../noir/circuits/target/with_foundry.json';
 // import Approve from './approve';
 
 const Pay = () => {
@@ -45,6 +48,31 @@ const Pay = () => {
     
   } , [])
 
+  /**
+ * An array of integers.
+ * @type {number[]}
+ */
+  type Field = string | number | boolean;
+type InputValue = Field | InputMap | Field[];
+type InputMap = { [key: string]: InputValue };
+
+const temp = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+
+
+  const handleClick = async () => {
+    // @ts-ignore
+    const backend = new BarretenbergBackend(with_foundry);
+    
+    // @ts-ignore
+    const noir = new Noir(with_foundry, backend);
+    const input = { x: temp,y:285 };
+    console.log('logs', 'Generating proof... ⌛');
+    const proof = await noir.generateFinalProof(input);
+    console.log('logs', 'Generating proof... ✅');
+    console.log('results', proof.proof);
+  }
+
   return (
     <div>
       <Navbar />
@@ -55,8 +83,10 @@ const Pay = () => {
       <Input placeholder="Destination Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
       
       {/* <Approve props={ sum, amount, deadline, v, r, s } /> */}
+      <Button onClick={handleClick}>Proof</Button>
     </div>
   );
 };
 
 export default Pay;
+
