@@ -8,7 +8,7 @@ const ABI = TOKEN_ABI_JSON.abi;
 const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
 const ORIGIN_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT_ADDRESS;
 const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
-const WALLET_KEY:any = process.env.PRIVATE_KEY;
+const WALLET_KEY = process.env.PRIVATE_KEY!;
 
 const transferTokens = async (provider:any, contract:any, amount:any, address:any) => {
     try {
@@ -59,9 +59,11 @@ const transferTokens = async (provider:any, contract:any, amount:any, address:an
 export async function POST(request: NextRequest) {
 
   const body = await request.json();
+
   const data = body;
-  // const {userAddress, amount, recipientAddress, proof} = body;
-  console.log('body',data);
+
+  const {userAddress, amount, recipientAddress, proof} = body;
+  console.log('body',amount, recipientAddress, proof);
 
 
   // let response = NextResponse.next({
@@ -73,13 +75,12 @@ export async function POST(request: NextRequest) {
   const web3Provider = new Web3(RPC_ENDPOINT);
 
   // import wallet in the provider
+  console.log('WALLET_KEY', WALLET_KEY)
   web3Provider.eth.accounts.wallet.add(WALLET_KEY);
 
   const tokenContract = new web3Provider.eth.Contract(ABI, ORIGIN_CONTRACT_ADDRESS);
 
-  // transfer transaction variables
-  const amount = 0;// '1000000';
-  const recipientAddress = '';// '0x21321321331321311232123';
+
 
   // method to do the transfer
       // transferTokens(provider, contract, amount, address)
@@ -87,8 +88,8 @@ export async function POST(request: NextRequest) {
   const result = await transferTokens(web3Provider, tokenContract, amount, recipientAddress);
 
   if(result) {
-    return Response.json({ result: result });
+    return NextResponse.json({ result: result });
   } else {
-    return Response.json({ result: null });
+    return NextResponse.json({ result: null });
   }
 }

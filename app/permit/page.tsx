@@ -5,7 +5,6 @@ import { parseEther } from 'viem';
 import { useAccount } from 'wagmi';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Approve from './approve';
 import Navbar from '../Navbar';
 import { createBrowserClient } from '@supabase/ssr'
 
@@ -21,11 +20,7 @@ const Permit = () => {
   const [amount, setAmount] = useState('');
   const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
   const [registeredWalletAddress, setRegisteredWalletAddress] = useState('');
-  const [sum, setSum] = useState();
-  const [deadline, setDeadline] = useState('');
-  const [v, setV] = useState('');
-  const [r, setR] = useState('');
-  const [s, setS] = useState('');
+  
 
   useEffect(() => {
     const fetchUserEmail = async () => {
@@ -80,6 +75,37 @@ const Permit = () => {
     }
   };
 
+  const handlePermitClick = async () => {
+    // Prepare the data to be sent
+    const payload = {
+      userAddress: connectedWalletAddress, 
+      amount: amount, 
+      recipientAddress: registeredWalletAddress,
+    };
+
+    try {
+      // Send a POST request to your API endpoint
+      const response = await fetch('/api/proof', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Handle successful response
+        console.log('Success:', data);
+      } else {
+        // Handle errors
+        console.error('API Error:', data);
+      }
+    } catch (error) {
+      console.error('Fetch Error:', error);
+    }
+  };
+
   return (
     <>
       <Navbar/>
@@ -91,7 +117,8 @@ const Permit = () => {
         <p>Permit</p>
         <Input placeholder="Registered Wallet Address" value={registeredWalletAddress} disabled />
         <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        {/* <Approve props={ sum, amount, deadline, v, r, s } /> */}
+        <Button onClick={handlePermitClick}>Permit</Button>  
+      
       </div>
     </>
   );
