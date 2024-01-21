@@ -123,13 +123,6 @@ const Permit = () => {
     await handleSubmit();
   };
 
-  // useEffect(() => {
-    // console.log(sum);
-    // if(sum > 0) {
-      // setOnComplete(true);
-    // }
-  // }, [setSum])
-// 
 
   useEffect(() => {
     const fetchUserEmail = async () => {
@@ -185,21 +178,29 @@ const Permit = () => {
   };
 
   return (
-    <>
+    <div className='radialBg h-[100vh] w-[100%] flex flex-col items-center  text-white'>
       <Navbar/>
-      <div>
-        <p>Register your wallet address</p>
+      <div className='w-[80%] flex justify-between mt-8'>
+        <div className='w-[50%] flex flex-col items-start gap-4'>
+        <p className='text-xl font-bold'>Register your wallet address</p>
         <Input placeholder="Email" value={email} disabled />
         <Input placeholder="Connect to Wallet to Register Wallet Address" value={connectedWalletAddress} readOnly />
+        <Pattern setProof={setProof} setSum={setSum}/>
         <Button onClick={handleRegister}>Register</Button>
-        <p>Permit</p>
+        </div>
+        
+        <div className='w-[50%] flex flex-col items-start gap-4'>
+        <p className='text-xl font-bold'>Permit</p>
         <Input placeholder="Registered Wallet Address" value={registeredWalletAddress} disabled />
         <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <Pattern setProof={setProof} setSum={setSum}/>
-        <Button onClick={handlePermitClick}>Permit</Button>  
+
+        
+        <Button onClick={handlePermitClick}>Permit</Button>
+        </div>
+          
       
       </div>
-    </>
+    </div>
   );
 };
 
