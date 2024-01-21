@@ -11,7 +11,8 @@ import gho_pay from '@/noir/out/GhoPay.sol/GhoPay.json';
 import Pattern from '@/components/ui/Pattern';
 
 type HexString = `0x${string}`;
-const contractAddr = `0x${process.env.NEXT_PUBLIC_GHO_PAY_CONTRACT_ADDRESS}`;
+
+const contractAddr : HexString = `0x${process.env.NEXT_PUBLIC_GHO_PAY_CONTRACT_ADDRESS}`;
 
 console.log('contractAddr', contractAddr);
 
@@ -43,6 +44,8 @@ const Permit = () => {
   };
 
   console.log("start");
+  console.log("args",args);
+  // console.log("usePrepareContractWrite");
 
   const { config, error: prepareError, isError: isPrepareError } = usePrepareContractWrite({
       address: contractAddr,
@@ -206,7 +209,7 @@ const Permit = () => {
         <div className='w-[50%] flex flex-col items-start gap-4'>
         <p className='text-xl font-bold'>Permit</p>
         <Input placeholder="Registered Wallet Address" value={registeredWalletAddress} disabled />
-        <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
+        <Input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
 
         
         <Button onClick={handlePermitClick}>Permit</Button>
