@@ -10,8 +10,9 @@ import { createBrowserClient } from '@supabase/ssr';
 import gho_pay from '@/noir/out/GhoPay.sol/GhoPay.json';
 import Pattern from '@/components/ui/Pattern';
 
-const contractAddr: HexString = `0x${process.env.NEXT_PUBLIC_GHO_PAY_CONTRACT_ADDRESS}`;
 type HexString = `0x${string}`;
+const contractAddr = `0x${process.env.NEXT_PUBLIC_GHO_PAY_CONTRACT_ADDRESS}`;
+
 console.log('contractAddr', contractAddr);
 
 
@@ -27,12 +28,12 @@ const Permit = () => {
   
   const [email, setEmail] = useState('');
   const [sum, setSum] = useState(0);// bytesundefined bytes32
-  const [amount, setAmount] = useState(0.001);
+  const [amount, setAmount] = useState(null);
   const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
   const [registeredWalletAddress, setRegisteredWalletAddress] = useState('');
-  const [proof,setProof]=useState(new Uint8Array());
-  const [onComplete, setOnComplete] = useState(false);
-
+  const [proof,setProof] = useState(new Uint8Array());
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState<boolean>(false);
+  const [args, setArgs] = useState<[number, number | null]>([sum, amount]);
   const [txnSuccess, setTxnSuccess] = useState<any>(null);
   // registerAndApprove(uint32 sum, uint256 value)
 
@@ -42,80 +43,93 @@ const Permit = () => {
   };
 
   console.log("start");
-  
+
   const { config, error: prepareError, isError: isPrepareError } = usePrepareContractWrite({
-    address: contractAddr,
-    abi: gho_pay.abi,
-    enabled: onComplete,
-    functionName: 'registerAndApprove',
-    chainId: chain?.id,
-    account: address,
-    args: [toBytes32(sum), amount]
+      address: contractAddr,
+      abi: gho_pay.abi,
+      enabled: isReadyToSubmit,
+      functionName: 'registerAndApprove',
+      chainId: chain?.id,
+      args: [toBytes32(sum), amount]
   });
-  
+
   if (isPrepareError) {
-    console.warn(`error in usePrepareContractWrite`);
-    console.error(prepareError);
+      console.warn(`error in usePrepareContractWrite`);
+      console.error(prepareError);
   };
+
+  console.log(`usePrepareContractWrite config`);
+  console.log(config);
   
-  console.log('config', config);
+  // console.log("useContractWrite");
 
   const { data, isLoading, isError, error, write, isSuccess, status } = useContractWrite(config);
-  console.log('data, isLoading, isError, error, write, isSuccess, status');
-  console.log(data, isLoading, isError, error, write, isSuccess, status);
 
   if (isError) {
-    console.warn("error in useContractWrite");
-    console.error(error);
+      console.warn("error in useContractWrite");
+      console.error(error);
   };
 
-  const {
-    data: txnData,
-    isLoading: isContractLoading,
-    isSuccess: writeSuccess,
-  } = useWaitForTransaction({
-    hash: data?.hash,
-  })
+  console.log(`data, isLoading, write`);
+  console.log(data, isLoading, write);
   
+  // console.log("useWaitForTransaction");
+
+  const {
+      data: txnData,
+      isLoading: isContractLoading,
+      isSuccess: writeSuccess,
+  } = useWaitForTransaction({
+      hash: data?.hash,
+  })
+
   // console.log(`data: ${txnData}, isLoading: ${isContractLoading}, isSuccess: ${writeSuccess}`);
-  console.log(`Transaction: ${JSON.stringify(data)}`);
+  console.log(` Transaction: ${JSON.stringify(data)}`);
+
   console.log("end");
 
+
   useEffect(() => {
-    if (writeSuccess) {
-        console.log(`Returned Data on write success`, data)
-        setTxnSuccess(`Success, Transaction submited successfully`);
-        console.log({
-            title: 'Success',
-            description: 'Transaction submited successfully',
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-        })
-    }
-    }, [writeSuccess, data]);
-  
-    // global functions
-  
+      setArgs([sum, amount]);
+      if (sum === null) return;
+      if (amount === null) return;
+      setIsReadyToSubmit(true);
+  }, [sum, amount]);
+
+  useEffect(() => {
+      if (writeSuccess) {
+          console.log(`Returned Data on write success`, data)
+          setTxnSuccess(`Success, Transaction submited successfully`);
+          console.log({
+              title: 'Success',
+              description: 'Transaction submited successfully',
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+          })
+      }
+     }, [writeSuccess, data]);
+
+
   const handleSubmit = async () => {
-    try {
-        console.log('Sending TX')
-        console.log(write);
-        if (!!write) {
-            console.log("writing");
-            await write?.()
-            console.log("written");
-        }
-    } catch (error) {
-        console.error(error);
-        console.log({
-            title: 'Error',
-            description: 'There was an error while writing txn',
-            status: 'error',
-            isClosable: true,
-        });
-    }
-  }
+      try {
+          console.log('Sending TX')
+          console.log(args)
+          if (!!write) {
+              console.log("writing");
+              await write?.()
+              console.log("written");
+          }
+      } catch (error) {
+          console.error(error);
+          console.log({
+              title: 'Error',
+              description: 'There was an error while writing txn',
+              status: 'error',
+              isClosable: true,
+          });
+      }
+ }
 
   const handlePermitClick = async () => {
 
