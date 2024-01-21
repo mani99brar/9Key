@@ -1,4 +1,4 @@
-import Web3, { Uint } from 'web3';
+import Web3 from 'web3';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Load contract ABI from file
@@ -11,27 +11,17 @@ const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
 const WALLET_KEY = process.env.PRIVATE_KEY as string;
 
 interface TransferBody {
-  proof:Uint8Array;
-  amount: number;
-  userAddress: string;
+  proof:string;
   provider : Web3;
+  userAddress: string;
   contractAddress : string;
-  recipientAddress : string;
+  amount: number;
+  sendAddress : string;
   sum: number;
 }
 
 
-function convertProofDataToHexString(proofData) {
-  // Convert the proofData object into a Uint8Array
-  const byteArray = new Uint8Array(Object.values(proofData));
 
-  // Convert the byteArray into a hexadecimal string
-  const hexString = '0x' + Array.from(byteArray, byte => {
-      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-  }).join('');
-
-  return hexString;
-}
 
 const toBytes32 = (num:number) => {
   const hex = num.toString(16).padStart(64, '0');
@@ -39,7 +29,7 @@ const toBytes32 = (num:number) => {
 };
 
 
-const transferTokens = async ({proof,provider,userAddress, contractAddress, amount, recipientAddress,sum}:TransferBody) => {
+const transferTokens = async ({proof,provider,userAddress, contractAddress, amount, sendAddress,sum}:TransferBody) => {
   try {
       // Initialize the contract
       const contract = new provider.eth.Contract(ABI, contractAddress);
@@ -52,10 +42,13 @@ const transferTokens = async ({proof,provider,userAddress, contractAddress, amou
       const y = [bytes32Sum];
 
       //Register
-      // const trx = contract.methods.registerAndApprove(y[0],BigInt(amount) );
+      console.log(y[0],amount);
+      // const trx = contract.methods.registerAndApprove(y[0],weiAmount );
 
       // Create transaction
-      const trx = contract.methods.transferGhoTokens(convertProofDataToHexString(proof),recipientAddress, userAddress,BigInt(amount), y);
+      console.log("Creating Transaction");
+      console.log(sendAddress, userAddress,weiAmount, y);
+      const trx = contract.methods.transferGhoTokens(proof,sendAddress, userAddress,amount, y);
       // const bytes32Sum = toBytes32(sum);
   
       // const y = [bytes32Sum];
@@ -75,7 +68,7 @@ const transferTokens = async ({proof,provider,userAddress, contractAddress, amou
           nonce,
       };
       
-
+      console.log(trxData);
       // Send transaction
       const receipt = await provider.eth.sendTransaction(trxData);
       console.log(receipt);
@@ -92,21 +85,24 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
   
-  const web3 = new Web3(RPC_ENDPOINT);
+  const web3 = new Web3(RPC_ENDPOINT!);
   console.log("Transaction Initiated");
-    try {
+  console.log(body);
+  const sendAddress = body.receiverAddress as string;
+  try {
+    console.log(sendAddress);
       const transactionHash = await transferTokens({
         proof:body.proof,
         provider: web3,
         userAddress: body.userAddress,
         contractAddress: ORIGIN_CONTRACT_ADDRESS!,
         amount: body.amount,
-        recipientAddress: body.recipientAddress,
+        sendAddress,
         sum: body.sum,
       });
     console.log("Transaction Completed", transactionHash);
 
-        return NextResponse.json({ success: true, transactionHash });
+        return NextResponse.json({ success: true});
     } catch (error) {
         return NextResponse.json({ success: false, error: error });
     }

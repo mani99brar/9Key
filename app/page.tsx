@@ -39,6 +39,18 @@ const Pay = () => {
     }
   }, [])
 
+  function convertProofDataToHexString(proofData:Uint8Array) {
+    // Convert the proofData object into a Uint8Array
+    const byteArray = new Uint8Array(Object.values(proofData));
+  
+    // Convert the byteArray into a hexadecimal string
+    const hexString = '0x' + Array.from(byteArray, byte => {
+        return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('');
+  
+    return hexString;
+  }
+
   useEffect(() => {
     async function sendProofToApi() {
       if (proof && receiverAddress && amount) {
@@ -53,10 +65,11 @@ const Pay = () => {
               receiverAddress,
               userAddress: userAddress, // Replace with actual user address
               amount: amount, // Convert amount to Ether
-              proof,
+              proof:convertProofDataToHexString(proof),
               sum
             })
           });
+
           const data = await response.json();
           console.log('API response:', data);
         } catch (error) {

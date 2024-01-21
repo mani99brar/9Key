@@ -59,8 +59,8 @@
       }
     },
     "contract/GhoPay.sol": {
-      "lastModificationDate": 1705835614987,
-      "contentHash": "717ab1a892eb12069da4a64bbd15b89b",
+      "lastModificationDate": 1705840523107,
+      "contentHash": "3374a3dba3a114a7e285712b38b616c6",
       "sourceName": "contract/GhoPay.sol",
       "solcConfig": {
         "settings": {
