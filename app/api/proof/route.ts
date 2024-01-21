@@ -6,7 +6,7 @@ import TOKEN_ABI_JSON from '@/noir/out/GhoPay.sol/GhoPay.json';
 const ABI = TOKEN_ABI_JSON.abi;
 
 const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
-const ORIGIN_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT_ADDRESS;
+const ORIGIN_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_GHO_PAY_CONTRACT_ADDRESS;
 const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
 const WALLET_KEY = process.env.PRIVATE_KEY as string;
 
