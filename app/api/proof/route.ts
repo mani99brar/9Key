@@ -1,95 +1,114 @@
-import Web3 from 'web3';
+import Web3, { Uint } from 'web3';
 import { NextRequest, NextResponse } from 'next/server';
 
-// load contract ABI from file
+// Load contract ABI from file
 import TOKEN_ABI_JSON from '@/noir/out/GhoPay.sol/GhoPay.json';
 const ABI = TOKEN_ABI_JSON.abi;
 
 const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
 const ORIGIN_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT_ADDRESS;
 const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
-const WALLET_KEY = process.env.PRIVATE_KEY!;
+const WALLET_KEY = process.env.PRIVATE_KEY as string;
 
-const transferTokens = async (provider:any, contract:any, amount:any, address:any) => {
-    try {
-      console.log(`Transfering ${amount} tokens to ${address}  💸💸💸💸💸`);
+interface TransferBody {
+  proof:Uint8Array;
+  amount: number;
+  userAddress: string;
+  provider : Web3;
+  contractAddress : string;
+  recipientAddress : string;
+  sum: number;
+}
+
+
+function convertProofDataToHexString(proofData) {
+  // Convert the proofData object into a Uint8Array
+  const byteArray = new Uint8Array(Object.values(proofData));
+
+  // Convert the byteArray into a hexadecimal string
+  const hexString = '0x' + Array.from(byteArray, byte => {
+      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }).join('');
+
+  return hexString;
+}
+
+const toBytes32 = (num:number) => {
+  const hex = num.toString(16).padStart(64, '0');
+  return '0x' + hex;
+};
+
+
+const transferTokens = async ({proof,provider,userAddress, contractAddress, amount, recipientAddress,sum}:TransferBody) => {
+  try {
+      // Initialize the contract
+      const contract = new provider.eth.Contract(ABI, contractAddress);
+
+      // Add wallet to web3
+      provider.eth.accounts.wallet.add(WALLET_KEY);
+
+      const weiAmount = provider.utils.toWei(amount.toString(), 'ether');
+      const bytes32Sum = toBytes32(sum);
+      const y = [bytes32Sum];
+
+      //Register
+      // const trx = contract.methods.registerAndApprove(y[0],BigInt(amount) );
+
+      // Create transaction
+      const trx = contract.methods.transferGhoTokens(convertProofDataToHexString(proof),recipientAddress, userAddress,BigInt(amount), y);
+      // const bytes32Sum = toBytes32(sum);
   
-      // 1 create smart contract transaction
-      // custom funciton
-      const trx = contract.methods.transfer(address, amount);
+      // const y = [bytes32Sum];
+      // console.log(y);
+      // const trx = contract.methods.verifyEqual(convertProofDataToHexString(proof), y);
 
-      // 2 calculate gas fee
-    const gas = await trx.estimateGas({ from: WALLET_ADDRESS });
-    //   console.log('gas :>> ', gas);
-      // 3 calculate gas price
+      // Estimate gas and set up transaction data
+      const gas = await trx.estimateGas({ from: WALLET_ADDRESS });
       const gasPrice = await provider.eth.getGasPrice();
-      console.log('gasPrice :>> ', gasPrice);
-      // 4 encode transaction data
-      const data = trx.encodeABI();
-      console.log('data :>> ', data);
-      // 5 get transaction number for wallet
-      const nonce = await provider.eth.getTransactionCount(WALLET_ADDRESS);
-      console.log('nonce :>> ', nonce);
-      // 6 build transaction object with all the data
+      const nonce = await provider.eth.getTransactionCount(WALLET_ADDRESS!);
       const trxData = {
-        // trx is sent from the wallet
-        from: WALLET_ADDRESS,
-        // trx destination is the ERC20 token contract
-        to: ORIGIN_CONTRACT_ADDRESS,
-        /** data contains the amount an recepient address params for transfer contract method */
-        data,
-        gas,
-        gasPrice,
-        nonce,
+          from: WALLET_ADDRESS,
+          to: ORIGIN_CONTRACT_ADDRESS,
+          data: trx.encodeABI(),
+          gas,
+          gasPrice,
+          nonce,
       };
-  
-      console.log('Transaction ready to be sent');
-      /** 7 send transaction, it'll be automatically signed
-      because the provider has already the wallet **/
-      const receipt = await provider.eth.sendTransaction(trxData);
-      console.log(`Transaction sent, hash is ${receipt.transactionHash}`);
-  
-      return true;
-    } catch (error) {
-      console.error('Error in transferTokens >', error);
-      return false;
-    }
-  };
+      
 
+      // Send transaction
+      const receipt = await provider.eth.sendTransaction(trxData);
+      console.log(receipt);
+      return receipt.transactionHash;
+  } catch (error) {
+      console.error('Error in transferTokens:', error);
+      throw error;
+  }
+};
+
+
+// POST request handler
 export async function POST(request: NextRequest) {
 
   const body = await request.json();
+  
+  const web3 = new Web3(RPC_ENDPOINT);
+  console.log("Transaction Initiated");
+    try {
+      const transactionHash = await transferTokens({
+        proof:body.proof,
+        provider: web3,
+        userAddress: body.userAddress,
+        contractAddress: ORIGIN_CONTRACT_ADDRESS!,
+        amount: body.amount,
+        recipientAddress: body.recipientAddress,
+        sum: body.sum,
+      });
+    console.log("Transaction Completed", transactionHash);
 
-  const data = body;
-
-  const {userAddress, amount, recipientAddress, proof} = body;
-  console.log('body',amount, recipientAddress, proof);
-
-
-  // let response = NextResponse.next({
-      // request: {
-        // headers: request.headers,
-      // },
-  // });
-
-  const web3Provider = new Web3(RPC_ENDPOINT);
-
-  // import wallet in the provider
-  console.log('WALLET_KEY', WALLET_KEY)
-  web3Provider.eth.accounts.wallet.add(WALLET_KEY);
-
-  const tokenContract = new web3Provider.eth.Contract(ABI, ORIGIN_CONTRACT_ADDRESS);
-
-
-
-  // method to do the transfer
-      // transferTokens(provider, contract, amount, address)
-
-  const result = await transferTokens(web3Provider, tokenContract, amount, recipientAddress);
-
-  if(result) {
-    return NextResponse.json({ result: result });
-  } else {
-    return NextResponse.json({ result: null });
-  }
+        return NextResponse.json({ success: true, transactionHash });
+    } catch (error) {
+        return NextResponse.json({ success: false, error: error });
+    }
+  
 }

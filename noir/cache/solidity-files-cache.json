@@ -12,8 +12,8 @@
   },
   "files": {
     "circuits/contract/with_foundry/plonk_vk.sol": {
-      "lastModificationDate": 1705640487799,
-      "contentHash": "4d85d5a8023b8c50507db4f6e135aa86",
+      "lastModificationDate": 1705833226292,
+      "contentHash": "bcfe902d275b2bbc998bec06b874929f",
       "sourceName": "circuits/contract/with_foundry/plonk_vk.sol",
       "solcConfig": {
         "settings": {
@@ -59,8 +59,8 @@
       }
     },
     "contract/GhoPay.sol": {
-      "lastModificationDate": 1705731587012,
-      "contentHash": "43f62272a3783d8753a48c674b48a640",
+      "lastModificationDate": 1705835614987,
+      "contentHash": "717ab1a892eb12069da4a64bbd15b89b",
       "sourceName": "contract/GhoPay.sol",
       "solcConfig": {
         "settings": {
@@ -188,7 +188,7 @@
       }
     },
     "contract/Starter.sol": {
-      "lastModificationDate": 1705386306298,
+      "lastModificationDate": 1705781171969,
       "contentHash": "57c4b3dd7166d4d7a0a7bc3b478e0425",
       "sourceName": "contract/Starter.sol",
       "solcConfig": {
@@ -1033,7 +1033,7 @@
       }
     },
     "script/Starter.s.sol": {
-      "lastModificationDate": 1705386306310,
+      "lastModificationDate": 1705781172041,
       "contentHash": "c59924742494c49c064ef6c4f509bfe5",
       "sourceName": "script/Starter.s.sol",
       "solcConfig": {
@@ -1089,7 +1089,7 @@
       }
     },
     "script/Verify.s.sol": {
-      "lastModificationDate": 1705386306310,
+      "lastModificationDate": 1705781172041,
       "contentHash": "8f788491b0fee57af38db7c7393f03f7",
       "sourceName": "script/Verify.s.sol",
       "solcConfig": {
@@ -1145,7 +1145,7 @@
       }
     },
     "test/GhoPay.t.sol": {
-      "lastModificationDate": 1705731843584,
+      "lastModificationDate": 1705781172041,
       "contentHash": "eed74c4a342e997c9fd674c219c768f9",
       "sourceName": "test/GhoPay.t.sol",
       "solcConfig": {
@@ -1208,7 +1208,7 @@
       }
     },
     "test/Starter.t.sol": {
-      "lastModificationDate": 1705386306310,
+      "lastModificationDate": 1705781172041,
       "contentHash": "ce06fb02a5ffb458799998be10ecb1a7",
       "sourceName": "test/Starter.t.sol",
       "solcConfig": {

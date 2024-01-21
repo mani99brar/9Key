@@ -6,8 +6,9 @@ import with_foundry from '../../noir/circuits/target/with_foundry.json';
 import React, { FC, Dispatch } from 'react';
 interface PatternProps {
   setProof: Dispatch<SetStateAction<Uint8Array>>;
+  setSum : Dispatch<SetStateAction<number>>;
 }
-const Pattern:FC<PatternProps> = ({setProof}) => {
+const Pattern:FC<PatternProps> = ({setProof,setSum}) => {
   const [path, setPath] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -38,7 +39,7 @@ const Pattern:FC<PatternProps> = ({setProof}) => {
   
     // Repeat elements until the length is 9
     for (let i = 0; repeatedArray.length < 9; i++) {
-      repeatedArray.push(arr[i % arr.length]);
+      repeatedArray.push(arr[i % arr.length]+1);
     }
   
     return repeatedArray;
@@ -60,6 +61,8 @@ const Pattern:FC<PatternProps> = ({setProof}) => {
     
     const inputArray = repeatArrayElements(path);   
     const sum = countSum(inputArray);
+    console.log(inputArray);
+    setSum(sum);
     console.log('sum', sum);
     // an imaginary api call
 
@@ -73,7 +76,7 @@ const Pattern:FC<PatternProps> = ({setProof}) => {
       const proof = await noir.generateFinalProof(input);
       console.log('logs', 'Generating proof... ✅');
     setProof(proof.proof);
-      console.log(path.join(", "));
+      console.log("Proof generated : ", proof.proof);
     
 
     setTimeout(() => {
